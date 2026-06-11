@@ -15,6 +15,7 @@ import {
 import createGroupIdMapper from "../../utilities/create-group-id-mapper.js";
 import { getOrInsertComputed } from "../../utilities/get-or-insert.js";
 import isNonEmptyArray from "../../utilities/is-non-empty-array.js";
+import { wrapWithSourceOrder } from "../../utilities/source-order.js";
 import needsParentheses from "../parentheses/needs-parentheses.js";
 import { isNonEmptyClassBody } from "../utilities/class-members.js";
 import { CommentCheckFlags, hasComment } from "../utilities/comments.js";
@@ -65,12 +66,16 @@ function printClass(path, options, print) {
   if (node.type === "ClassExpression" && isNonEmptyArray(node.decorators)) {
     const decoratorsDoc = printDecorators(path, options, print);
     const needsParens = needsParentheses(path, options);
-    return needsParens
-      ? [indent([softline, decoratorsDoc, doc]), softline]
-      : [decoratorsDoc, doc];
+    return wrapWithSourceOrder(
+      path,
+      needsParens
+        ? [indent([softline, decoratorsDoc, doc]), softline]
+        : [decoratorsDoc, doc],
+      options,
+    );
   }
 
-  return doc;
+  return wrapWithSourceOrder(path, doc, options);
 }
 
 function printClassWithoutDecorators(path, options, print) {

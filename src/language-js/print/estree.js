@@ -6,6 +6,7 @@ import {
   softline,
 } from "../../document/index.js";
 import { printDanglingComments } from "../../main/comments/print.js";
+import { wrapWithSourceOrder } from "../../utilities/source-order.js";
 import UnexpectedNodeError from "../../utilities/unexpected-node-error.js";
 import { CommentCheckFlags, hasComment } from "../utilities/comments.js";
 import { isMeaningfulEmptyStatement } from "../utilities/is-meaningful-empty-statement.js";

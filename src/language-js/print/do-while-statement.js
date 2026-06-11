@@ -1,4 +1,5 @@
 import { group, hardline } from "../../document/index.js";
+import { wrapWithSourceOrder } from "../../utilities/source-order.js";
 import { printDoWhileStatementBody } from "./clause.js";
 import {
   printDoWhileStatementCondition,
@@ -6,7 +7,7 @@ import {
 } from "./miscellaneous.js";
 
 function printDoWhileStatement(path, options, print) {
-  return [
+  const doc = [
     group(["do", printDoWhileStatementBody(path, options, print)]),
     path.node.body.type === "BlockStatement" ? " " : hardline,
     "while (",
@@ -14,6 +15,8 @@ function printDoWhileStatement(path, options, print) {
     ")",
     printSemicolon(options),
   ];
+
+  return wrapWithSourceOrder(path, doc, options);
 }
 
 export { printDoWhileStatement };

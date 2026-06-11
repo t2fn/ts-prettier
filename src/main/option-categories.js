@@ -1,4 +1,5 @@
 export const CATEGORY_CONFIG = "Config";
+export const CATEGORY_JAVASCRIPT = "JavaScript";
 export const CATEGORY_EDITOR = "Editor";
 export const CATEGORY_FORMAT = "Format";
 export const CATEGORY_OTHER = "Other";

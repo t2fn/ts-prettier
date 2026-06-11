@@ -1,5 +1,6 @@
 import { group, hardline } from "../../document/index.js";
 import { printDanglingComments } from "../../main/comments/print.js";
+import { wrapWithSourceOrder } from "../../utilities/source-order.js";
 import hasNewline from "../../utilities/has-newline.js";
 import { locEnd, locStart } from "../location/index.js";
 import { CommentCheckFlags, getComments } from "../utilities/comments.js";
@@ -26,7 +27,7 @@ function printIfStatement(path, options, print) {
   ]);
 
   if (!node.alternate) {
-    return opening;
+    return wrapWithSourceOrder(path, opening, options);
   }
 
   const { consequent } = node;
@@ -72,7 +73,7 @@ function printIfStatement(path, options, print) {
     group(printIfStatementAlternate(path, options, print)),
   );
 
-  return parts;
+  return wrapWithSourceOrder(path, parts, options);
 }
 
 export { printIfStatement };

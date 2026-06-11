@@ -274,6 +274,10 @@ exports[`API getSupportInfo() 1`] = `
       "default": false,
       "type": "boolean",
     },
+    "sourceOrder": {
+      "default": false,
+      "type": "boolean",
+    },
     "tabWidth": {
       "default": 2,
       "range": {
@@ -1116,6 +1120,14 @@ exports[`CLI --support-info  1`] = `
       "default": false,
       "description": "Use single quotes instead of double quotes.",
       "name": "singleQuote",
+      "pluginDefaults": {},
+      "type": "boolean"
+    },
+    {
+      "category": "JavaScript",
+      "default": false,
+      "description": "Sort syntax elements numerically by their source code position.",
+      "name": "sourceOrder",
       "pluginDefaults": {},
       "type": "boolean"
     },

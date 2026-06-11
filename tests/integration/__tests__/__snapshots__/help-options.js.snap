@@ -619,6 +619,18 @@ Default: false",
 }
 `;
 
+exports[`show detailed usage with --help source-order  1`] = `
+{
+  "stderr": "",
+  "stdout": "--source-order
+
+  Sort syntax elements numerically by their source code position.
+
+Default: false",
+  "write": [],
+}
+`;
+
 exports[`show detailed usage with --help stdin-filepath  1`] = `
 {
   "stderr": "",

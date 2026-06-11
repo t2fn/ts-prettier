@@ -1,5 +1,5 @@
 import * as assert from "#universal/assert";
-import { group } from "../../document/index.js";
+import { group, hardline } from "../../document/index.js";
 import { getCallArguments } from "../utilities/call-arguments.js";
 import { CommentCheckFlags, hasComment } from "../utilities/comments.js";
 import { getFunctionParameters } from "../utilities/function-parameters.js";
@@ -13,6 +13,7 @@ import {
 import { printKey } from "./key.js";
 import { printDeclareToken, printSemicolon } from "./miscellaneous.js";
 import { printTypeAnnotationProperty } from "./type-annotation.js";
+import { createSourceOrderComment, wrapWithSourceOrder } from "../../utilities/source-order.js";
 
 /**
  * @import AstPath from "../../common/ast-path.js"
@@ -38,7 +39,7 @@ const isMethodValue = ({ node, key, parent }) =>
 */
 function printFunction(path, options, print, args) {
   if (isMethodValue(path)) {
-    return printMethodValue(path, options, print);
+    return wrapWithSourceOrder(path, printMethodValue(path, options, print), options);
   }
 
   const { node } = path;
@@ -72,7 +73,7 @@ function printFunction(path, options, print, args) {
   const isFlowHookDeclaration = node.type === "HookDeclaration";
   const keyword = isFlowHookDeclaration ? "hook" : "function";
 
-  return [
+  const doc = [
     printDeclareToken(path),
     node.async ? "async " : "",
     keyword,
@@ -88,6 +89,8 @@ function printFunction(path, options, print, args) {
     print("body"),
     node.declare || !node.body ? printSemicolon(options) : "",
   ];
+
+  return wrapWithSourceOrder(path, doc, options);
 }
 
 /*
@@ -124,13 +127,18 @@ function printMethod(path, options, print) {
     parts.push("*");
   }
 
+  // Mark that the parent (printMethod) will annotate, so printMethodValue skips
+  wrapWithSourceOrder._parentAnnotated = true;
+  const methodValueDoc = node === value ? printMethodValue(path, options, print) : print("value");
+  wrapWithSourceOrder._parentAnnotated = false;
+
   parts.push(
     printKey(path, options, print),
     node.optional ? "?" : "",
-    node === value ? printMethodValue(path, options, print) : print("value"),
+    methodValueDoc,
   );
 
-  return parts;
+  return wrapWithSourceOrder(path, parts, options);
 }
 
 /*
@@ -171,7 +179,37 @@ function printMethodValue(path, options, print) {
     parts.push(printSemicolon(options));
   }
 
-  return parts;
+  // Skip annotation for class methods - they are annotated by printMethod
+  // which wraps the entire method (keyword + value).
+  // We check both the current node type and the parent/grandparent node types,
+  // because when printMethodValue handles the FunctionExpression value,
+  // the parent might be the body array (in which case we check grandparent).
+  const isClassMethod =
+    node.type === "ClassMethod" ||
+    node.type === "ClassPrivateMethod" ||
+    node.type === "MethodDefinition" ||
+    node.type === "FunctionExpression" &&
+    (path.parent.type === "ClassMethod" ||
+     path.parent.type === "ClassPrivateMethod" ||
+     path.parent.type === "MethodDefinition" ||
+     path.parent.type === "FunctionExpression" &&
+     (path.grandparent?.type === "ClassMethod" ||
+      path.grandparent?.type === "ClassPrivateMethod" ||
+      path.grandparent?.type === "MethodDefinition") ||
+     path.grandparent?.type === "ClassMethod" ||
+     path.grandparent?.type === "ClassPrivateMethod" ||
+     path.grandparent?.type === "MethodDefinition");
+  // For class methods where printMethod already handles the annotation,
+  // return just the doc content without the annotation wrapper.
+  // This prevents duplicate annotations at different positions for parsers
+  // like acorn where MethodDefinition.start !== FunctionExpression.start.
+  if (isClassMethod && wrapWithSourceOrder._parentAnnotated) {
+    return parts;
+  }
+
+  const skip = isClassMethod && wrapWithSourceOrder._parentAnnotated;
+
+  return wrapWithSourceOrder(path, parts, options, { skip });
 }
 
 function canPrintParamsWithoutParens(node) {

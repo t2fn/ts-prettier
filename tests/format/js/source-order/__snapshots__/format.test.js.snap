@@ -1,0 +1,367 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`jsfmt.spec.js - {"sourceOrder":false} format 1`] = `
+====================================options=====================================
+parsers: ["babel"]
+sourceOrder: false
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+runSpec(__filename, {
+  sourceOrder: true,
+});
+runSpec(__filename, {
+  sourceOrder: false,
+});
+
+=====================================output=====================================
+runSpec(__filename, {
+  sourceOrder: true,
+});
+runSpec(__filename, {
+  sourceOrder: false,
+});
+
+================================================================================
+`;
+
+exports[`jsfmt.spec.js - {"sourceOrder":true} format 1`] = `
+====================================options=====================================
+parsers: ["babel"]
+sourceOrder: true
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+runSpec(__filename, {
+  sourceOrder: true,
+});
+runSpec(__filename, {
+  sourceOrder: false,
+});
+
+=====================================output=====================================
+runSpec(__filename, {
+  sourceOrder: true,
+});
+runSpec(__filename, {
+  sourceOrder: false,
+});
+
+================================================================================
+`;
+
+exports[`main.js - {"sourceOrder":false} format 1`] = `
+====================================options=====================================
+parsers: ["babel"]
+sourceOrder: false
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+function foo() {
+  return bar;
+}
+
+for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+
+for (const x of items) {
+  process(x);
+}
+
+while (condition) {
+  doSomething();
+}
+
+do {
+  doAnother();
+} while (anotherCondition);
+
+if (value) {
+  handle(value);
+} else {
+  handleDefault();
+}
+
+class MyClass {
+  constructor() {
+    this.init();
+  }
+
+  method() {
+    return this;
+  }
+}
+
+const arrow = () => {
+  return 42;
+};
+
+const arrowShort = () => 42;
+
+async function asyncFunction() {
+  return await fetch(url);
+}
+
+async () => {
+  const data = await fetch(url);
+  return data;
+};
+
+=====================================output=====================================
+function foo() {
+  return bar;
+}
+
+for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+
+for (const x of items) {
+  process(x);
+}
+
+while (condition) {
+  doSomething();
+}
+
+do {
+  doAnother();
+} while (anotherCondition);
+
+if (value) {
+  handle(value);
+} else {
+  handleDefault();
+}
+
+class MyClass {
+  constructor() {
+    this.init();
+  }
+
+  method() {
+    return this;
+  }
+}
+
+const arrow = () => {
+  return 42;
+};
+
+const arrowShort = () => 42;
+
+async function asyncFunction() {
+  return await fetch(url);
+}
+
+async () => {
+  const data = await fetch(url);
+  return data;
+};
+
+================================================================================
+`;
+
+exports[`main.js - {"sourceOrder":true} format 1`] = `
+====================================options=====================================
+parsers: ["babel"]
+sourceOrder: true
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+function foo() {
+  return bar;
+}
+
+for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+
+for (const x of items) {
+  process(x);
+}
+
+while (condition) {
+  doSomething();
+}
+
+do {
+  doAnother();
+} while (anotherCondition);
+
+if (value) {
+  handle(value);
+} else {
+  handleDefault();
+}
+
+class MyClass {
+  constructor() {
+    this.init();
+  }
+
+  method() {
+    return this;
+  }
+}
+
+const arrow = () => {
+  return 42;
+};
+
+const arrowShort = () => 42;
+
+async function asyncFunction() {
+  return await fetch(url);
+}
+
+async () => {
+  const data = await fetch(url);
+  return data;
+};
+
+=====================================output=====================================
+
+
+  # prettier-source-order 0function foo() {
+  return bar;
+}
+
+
+
+  # prettier-source-order 34for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+
+
+
+  # prettier-source-order 86for (const x of items) {
+  process(x);
+}
+
+
+
+  # prettier-source-order 128while (condition) {
+  doSomething();
+}
+
+
+
+  # prettier-source-order 168do {
+  doAnother();
+} while (anotherCondition);
+
+
+
+  # prettier-source-order 217if (value) {
+  handle(value);
+} else {
+  handleDefault();
+}
+
+
+
+  # prettier-source-order 278class MyClass {
+
+
+    # prettier-source-order 296constructor() {
+    this.init();
+  }
+
+
+
+    # prettier-source-order 336method() {
+    return this;
+  }
+}
+
+const arrow =
+
+  # prettier-source-order 385() => {
+  return 42;
+};
+
+const arrowShort =
+
+  # prettier-source-order 429() => 42;
+
+
+
+  # prettier-source-order 440async function asyncFunction() {
+  return await fetch(url);
+}
+
+
+
+  # prettier-source-order 503async () => {
+  const data = await fetch(url);
+  return data;
+};
+
+================================================================================
+`;
+
+exports[`obfuscated.js - {"sourceOrder":false} format 1`] = `
+====================================options=====================================
+parsers: ["babel"]
+sourceOrder: false
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+function a(){return 1}function b(){return 2}for(var i=0;i<10;i++){}while(c){}do{}while(d);if(e){}class C{}const f=()=>{};
+
+=====================================output=====================================
+function a() {
+  return 1;
+}
+function b() {
+  return 2;
+}
+for (var i = 0; i < 10; i++) {}
+while (c) {}
+do {} while (d);
+if (e) {
+}
+class C {}
+const f = () => {};
+
+================================================================================
+`;
+
+exports[`obfuscated.js - {"sourceOrder":true} format 1`] = `
+====================================options=====================================
+parsers: ["babel"]
+sourceOrder: true
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+function a(){return 1}function b(){return 2}for(var i=0;i<10;i++){}while(c){}do{}while(d);if(e){}class C{}const f=()=>{};
+
+=====================================output=====================================
+
+
+  # prettier-source-order 0function a() {
+  return 1;
+}
+
+
+  # prettier-source-order 22function b() {
+  return 2;
+}
+
+
+  # prettier-source-order 44for (var i = 0; i < 10; i++) {}
+
+
+  # prettier-source-order 67while (c) {}
+
+
+  # prettier-source-order 77do {} while (d);
+
+
+  # prettier-source-order 90if (e) {
+}
+
+
+  # prettier-source-order 97class C {}
+const f =
+
+  # prettier-source-order 114() => {};
+
+================================================================================
+`;

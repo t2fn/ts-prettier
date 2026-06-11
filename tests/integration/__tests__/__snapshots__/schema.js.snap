@@ -427,6 +427,11 @@ The range will extend backwards to the start of the first line containing the se
           "description": "Use single quotes instead of double quotes.",
           "type": "boolean",
         },
+        "sourceOrder": {
+          "default": false,
+          "description": "Sort syntax elements numerically by their source code position.",
+          "type": "boolean",
+        },
         "tabWidth": {
           "default": 2,
           "description": "Number of spaces per indentation level.",

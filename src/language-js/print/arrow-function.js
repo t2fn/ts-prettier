@@ -15,6 +15,7 @@ import {
   printDanglingComments,
 } from "../../main/comments/print.js";
 import { getOrInsertComputed } from "../../utilities/get-or-insert.js";
+import { wrapWithSourceOrder } from "../../utilities/source-order.js";
 import { CommentCheckFlags, hasComment } from "../utilities/comments.js";
 import { getFunctionParameters } from "../utilities/function-parameters.js";
 import { hasLeadingOwnLineComment } from "../utilities/has-leading-own-line-comment.js";
@@ -150,7 +151,7 @@ function printArrowFunction(path, options, print, args = {}) {
     shouldPutBodyOnSameLine,
   });
 
-  return group([
+  const doc = group([
     group(
       shouldIndentSignatures
         ? indent([shouldPrintSoftlineInIndent ? softline : "", signaturesDoc])
@@ -165,6 +166,8 @@ function printArrowFunction(path, options, print, args = {}) {
       ? ifBreak(softline, "", { groupId: chainGroupId })
       : "",
   ]);
+
+  return wrapWithSourceOrder(path, doc, options);
 }
 
 function printArrowFunctionSignature(path, options, print, args) {

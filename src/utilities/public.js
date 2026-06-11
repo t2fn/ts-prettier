@@ -160,3 +160,9 @@ export { default as skipTrailingComment } from "./skip-trailing-comment.js";
 
 // TODO: Remove this in v4
 export { isNextLineEmptyAfterIndex };
+
+export {
+  createSourceOrderComment,
+  shouldAnnotateNode,
+  wrapWithSourceOrder,
+} from "./source-order.js";

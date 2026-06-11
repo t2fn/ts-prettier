@@ -1,5 +1,6 @@
 import { group, indent, line, softline } from "../../document/index.js";
 import { printDanglingComments } from "../../main/comments/print.js";
+import { wrapWithSourceOrder } from "../../utilities/source-order.js";
 import { printForXStatementBody } from "./clause.js";
 
 function printForStatement(path, options, print) {
@@ -12,30 +13,30 @@ function printForStatement(path, options, print) {
   const dangling = printDanglingComments(path, options);
   const printedComments = dangling ? [dangling, softline] : "";
 
-  if (!node.init && !node.test && !node.update) {
-    return [printedComments, group(["for (;;)", body])];
-  }
-
-  return [
-    printedComments,
-    group([
-      "for (",
-      group([
-        indent([
-          softline,
-          print("init"),
-          ";",
-          line,
-          print("test"),
-          ";",
-          node.update ? [line, print("update")] : "",
+  const doc = !node.init && !node.test && !node.update
+    ? [printedComments, group(["for (;;)", body])]
+    : [
+        printedComments,
+        group([
+          "for (",
+          group([
+            indent([
+              softline,
+              print("init"),
+              ";",
+              line,
+              print("test"),
+              ";",
+              node.update ? [line, print("update")] : "",
+            ]),
+            softline,
+          ]),
+          ")",
+          body,
         ]),
-        softline,
-      ]),
-      ")",
-      body,
-    ]),
-  ];
+      ];
+
+  return wrapWithSourceOrder(path, doc, options);
 }
 
 export { printForStatement };

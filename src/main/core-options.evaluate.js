@@ -3,6 +3,7 @@ import {
   CATEGORY_CONFIG,
   CATEGORY_EDITOR,
   CATEGORY_GLOBAL,
+  CATEGORY_JAVASCRIPT,
   CATEGORY_OTHER,
   CATEGORY_SPECIAL,
 } from "./option-categories.js";
@@ -187,6 +188,14 @@ const options = {
     description:
       "Require either '@prettier' or '@format' to be present in the file's first docblock comment in order for it to be formatted.",
     cliCategory: CATEGORY_OTHER,
+  },
+  sourceOrder: {
+    category: CATEGORY_JAVASCRIPT,
+    type: "boolean",
+    default: false,
+    description:
+      "Sort syntax elements numerically by their source code position.",
+    cliCategory: CATEGORY_JAVASCRIPT,
   },
   tabWidth: {
     type: "int",
